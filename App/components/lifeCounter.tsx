@@ -1,6 +1,8 @@
+import { usePlayerLife } from "@/store/life.store";
+import { useAppSettings } from "@/store/settings.store";
 import { AppTheme } from "@/theme/app.theme";
 import { AppColors } from "@/theme/player.colors";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
 
@@ -39,27 +41,135 @@ const calcRotation = (orientation: "top" | "bottom" | "left" | "right") => {
 };
 
 export default function LifeCounter({ playerIndex, orientation }: { playerIndex: number; orientation: "top" | "bottom" | "left" | "right" }) {
-	const [life, setLife] = useState(40);
+	const { startLife } = useAppSettings();
+	const { player0, player1, player2, player3, player4, player5, setPlayer0, setPlayer1, setPlayer2, setPlayer3, setPlayer4, setPlayer5 } =
+		usePlayerLife();
+
+	useEffect(() => {
+		switch (playerIndex) {
+			case 0:
+				setPlayer0({ life: startLife });
+				break;
+			case 1:
+				setPlayer1({ life: startLife });
+				break;
+			case 2:
+				setPlayer2({ life: startLife });
+				break;
+			case 3:
+				setPlayer3({ life: startLife });
+				break;
+			case 4:
+				setPlayer4({ life: startLife });
+				break;
+			case 5:
+				setPlayer5({ life: startLife });
+				break;
+		}
+	}, [startLife]);
 
 	const handlePressTop = () => {
-		setLife((prev) => prev + 1);
+		switch (playerIndex) {
+			case 0:
+				setPlayer0({ life: player0.life + 1 });
+				break;
+			case 1:
+				setPlayer1({ life: player1.life + 1 });
+				break;
+			case 2:
+				setPlayer2({ life: player2.life + 1 });
+				break;
+			case 3:
+				setPlayer3({ life: player3.life + 1 });
+				break;
+			case 4:
+				setPlayer4({ life: player4.life + 1 });
+				break;
+			case 5:
+				setPlayer5({ life: player5.life + 1 });
+				break;
+		}
 	};
 
 	const handlePressBottom = () => {
-		setLife((prev) => prev - 1);
+		switch (playerIndex) {
+			case 0:
+				setPlayer0({ life: player0.life - 1 });
+				break;
+			case 1:
+				setPlayer1({ life: player1.life - 1 });
+				break;
+			case 2:
+				setPlayer2({ life: player2.life - 1 });
+				break;
+			case 3:
+				setPlayer3({ life: player3.life - 1 });
+				break;
+			case 4:
+				setPlayer4({ life: player4.life - 1 });
+				break;
+			case 5:
+				setPlayer5({ life: player5.life - 1 });
+				break;
+		}
 	};
 
 	const handleLongPressTop = () => {
-		setLife((prev) => prev + 10);
+		switch (playerIndex) {
+			case 0:
+				setPlayer0({ life: player0.life + 10 });
+				break;
+			case 1:
+				setPlayer1({ life: player1.life + 10 });
+				break;
+			case 2:
+				setPlayer2({ life: player2.life + 10 });
+				break;
+			case 3:
+				setPlayer3({ life: player3.life + 10 });
+				break;
+			case 4:
+				setPlayer4({ life: player4.life + 10 });
+				break;
+			case 5:
+				setPlayer5({ life: player5.life + 10 });
+				break;
+		}
 	};
 
 	const handleLongPressBottom = () => {
-		setLife((prev) => prev - 10);
+		switch (playerIndex) {
+			case 0:
+				setPlayer0({ life: player0.life - 10 });
+				break;
+			case 1:
+				setPlayer1({ life: player1.life - 10 });
+				break;
+			case 2:
+				setPlayer2({ life: player2.life - 10 });
+				break;
+			case 3:
+				setPlayer3({ life: player3.life - 10 });
+				break;
+			case 4:
+				setPlayer4({ life: player4.life - 10 });
+				break;
+			case 5:
+				setPlayer5({ life: player5.life - 10 });
+				break;
+		}
 	};
 
 	return (
 		<View style={[style.card, { backgroundColor: colorByIndex(playerIndex) }]}>
-			<Text style={[style.text, ...[calcRotation(orientation)]]}>{life}</Text>
+			<Text style={[style.text, ...[calcRotation(orientation)]]}>
+				{playerIndex === 0 && player0.life}
+				{playerIndex === 1 && player1.life}
+				{playerIndex === 2 && player2.life}
+				{playerIndex === 3 && player3.life}
+				{playerIndex === 4 && player4.life}
+				{playerIndex === 5 && player5.life}
+			</Text>
 
 			{["bottom", "top"].includes(orientation) && (
 				<View style={style.touchableContainerH}>

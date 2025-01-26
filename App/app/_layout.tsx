@@ -41,8 +41,7 @@ export default function RootLayout() {
 			<View style={{ flex: 1, backgroundColor: AppTheme.dark.colors.background }}>
 				<Stack>
 					<Stack.Screen name="index" options={{ headerShown: false, animation: "fade" }} />
-					<Stack.Screen name="pages/device/selector" options={{ headerShown: false, animation: "fade" }} />
-					<Stack.Screen name="pages/player/selector" options={{ headerShown: false, animation: "fade" }} />
+					<Stack.Screen name="pages/counter/layout.1" options={{ headerShown: false, animation: "fade" }} />
 					<Stack.Screen name="pages/counter/layout.2" options={{ headerShown: false, animation: "fade" }} />
 					<Stack.Screen name="pages/counter/layout.3" options={{ headerShown: false, animation: "fade" }} />
 					<Stack.Screen name="pages/counter/layout.4" options={{ headerShown: false, animation: "fade" }} />

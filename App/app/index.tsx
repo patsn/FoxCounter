@@ -1,19 +1,27 @@
+import EDH from "@/components/commander";
+import Dices from "@/components/dices";
+import RandomPlayer from "@/components/randomize";
+import AppSettings from "@/components/settings";
+import { useAppSettings } from "@/store/settings.store";
 import { AppTheme } from "@/theme/app.theme";
 import { Anton_400Regular, useFonts } from "@expo-google-fonts/anton";
 import { useKeepAwake } from "expo-keep-awake";
 import { Href, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback } from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import React, { useCallback } from "react";
+import { Dimensions, Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Text } from "react-native-paper";
 
 export default function Index() {
 	useKeepAwake();
 
-	const router = useRouter();
-	const handlePress = (route: string) => {
+	const { playerAmmount } = useAppSettings();
+	const Redirect = (players: number) => {
+		const route = `/pages/counter/layout.${players}`;
 		router.push(route as Href);
 	};
+
+	const router = useRouter();
 
 	const [fontsLoaded] = useFonts({
 		Anton_400Regular,
@@ -35,38 +43,47 @@ export default function Index() {
 
 	return (
 		<View style={style.container} onLayout={onLayoutRootView}>
-			<Text style={style.headerText}>Fox Counter</Text>
-			<Button mode="contained" labelStyle={style.startButtonLabel} style={style.startButton} onPress={() => handlePress("pages/device/selector")}>
-				START
-			</Button>
+			<Image style={style.image} source={require("@/assets/images/fox-round-png.png")} />
+			<View style={{ marginTop: 120 }}>
+				<View>
+					<EDH />
+				</View>
+				<View>
+					<RandomPlayer />
+				</View>
+				<View>
+					<AppSettings />
+				</View>
+				<View>
+					<Dices />
+				</View>
+			</View>
+			<TouchableOpacity onPress={() => Redirect(playerAmmount)}>
+				<Text style={style.fight}>Fight!</Text>
+			</TouchableOpacity>
 		</View>
 	);
 }
 
 const style = StyleSheet.create({
-	headerText: {
-		fontFamily: "Anton_400Regular",
-		fontSize: 24,
+	image: {
+		height: Dimensions.get("screen").height / 6,
+		resizeMode: "contain",
 		position: "absolute",
-		top: "30%",
+		top: 60,
 	},
+
 	container: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: AppTheme.dark.colors.background,
 	},
-	lifeCounterContainer: {
-		flexDirection: "row",
-		flexWrap: "wrap",
-		width: "100%",
-		height: "50%",
-	},
-	startButtonLabel: {
+
+	fight: {
+		color: AppTheme.light.colors.text,
 		fontFamily: "Anton_400Regular",
-	},
-	startButton: {
-		position: "absolute",
-		bottom: 20,
+		fontSize: 48,
+		margin: 20,
 	},
 });
